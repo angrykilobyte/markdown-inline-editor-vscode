@@ -1,0 +1,68 @@
+{
+  "scopeName": "highlight.markdown",
+  "injectionSelector": "L:text.html.markdown",
+  "patterns": [
+    { "include": "#highlightTriple" },
+    { "include": "#highlightBold" },
+    { "include": "#highlight" },
+    { "include": "#alertTriple" },
+    { "include": "#alertBold" },
+    { "include": "#alert" }
+  ],
+  "repository": {
+    "highlightTriple": {
+      "name": "markup.highlight.triple.markdown",
+      "match": "(?<![\\w=])(===)(?=\\S)([^=\\n]+?)(?<=\\S)(===)(?![\\w=])",
+      "captures": {
+        "1": { "name": "punctuation.definition.highlight.triple.begin.markdown" },
+        "2": { "name": "markup.highlight.triple.content.markdown" },
+        "3": { "name": "punctuation.definition.highlight.triple.end.markdown" }
+      }
+    },
+    "highlightBold": {
+      "name": "markup.highlight.bold.markdown",
+      "match": "(?<![\\w=])(==)(?=\\S)([^=\\n]+?)(?<=\\S)(==)(?![\\w=])",
+      "captures": {
+        "1": { "name": "punctuation.definition.highlight.bold.begin.markdown" },
+        "2": { "name": "markup.highlight.bold.content.markdown" },
+        "3": { "name": "punctuation.definition.highlight.bold.end.markdown" }
+      }
+    },
+    "highlight": {
+      "name": "markup.highlight.markdown",
+      "match": "(?<![\\w=])(=)(?=\\S)([^=\\n]+?)(?<=\\S)(=)(?![\\w=])",
+      "captures": {
+        "1": { "name": "punctuation.definition.highlight.begin.markdown" },
+        "2": { "name": "markup.highlight.content.markdown" },
+        "3": { "name": "punctuation.definition.highlight.end.markdown" }
+      }
+    },
+    "alertTriple": {
+      "name": "markup.alert.triple.markdown",
+      "match": "(?<![\\w!])(!!!)(?=\\S)([^!\\n]+?)(?<=\\S)(!!!)(?![\\w!])",
+      "captures": {
+        "1": { "name": "punctuation.definition.alert.triple.begin.markdown" },
+        "2": { "name": "markup.alert.triple.content.markdown" },
+        "3": { "name": "punctuation.definition.alert.triple.end.markdown" }
+      }
+    },
+    "alertBold": {
+      "name": "markup.alert.bold.markdown",
+      "match": "(?<![\\w!])(!!)(?=\\S)([^!\\n]+?)(?<=\\S)(!!)(?![\\w!])",
+      "captures": {
+        "1": { "name": "punctuation.definition.alert.bold.begin.markdown" },
+        "2": { "name": "markup.alert.bold.content.markdown" },
+        "3": { "name": "punctuation.definition.alert.bold.end.markdown" }
+      }
+    },
+    "alert": {
+      "name": "markup.alert.markdown",
+      "match": "(?<![\\w!])(!)(?=\\S)([^!\\n]+?)(?<=\\S)(!)(?![\\w!])",
+      "captures": {
+        "1": { "name": "punctuation.definition.alert.begin.markdown" },
+        "2": { "name": "markup.alert.content.markdown" },
+        "3": { "name": "punctuation.definition.alert.end.markdown" }
+      }
+    }
+  }
+}

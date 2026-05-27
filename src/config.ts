@@ -145,6 +145,24 @@ export const config = {
     emphasis(): string | undefined {
       return getColorConfig('emphasis');
     },
+    highlight(): string | undefined {
+      return getColorConfig('highlight');
+    },
+    highlightBackground(): string | undefined {
+      return getColorConfig('highlightBackground');
+    },
+    highlightSingleForeground(): string | undefined {
+      return getColorConfig('highlightSingleForeground');
+    },
+    alert(): string | undefined {
+      return getColorConfig('alert');
+    },
+    alertBackground(): string | undefined {
+      return getColorConfig('alertBackground');
+    },
+    alertSingleForeground(): string | undefined {
+      return getColorConfig('alertSingleForeground');
+    },
     blockquote(): string | undefined {
       return getColorConfig('blockquote');
     },

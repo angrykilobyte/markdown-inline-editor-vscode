@@ -79,5 +79,11 @@ export type DecorationType =
   | "tableSeparatorPipe"
   | "tableSeparatorDash"
   | "tableCell"
+  | "highlight"
+  | "highlightBold"
+  | "highlightTriple"
+  | "alert"
+  | "alertBold"
+  | "alertTriple"
   | "mention"
   | "issueReference";

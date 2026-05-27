@@ -6,6 +6,12 @@ import {
   BoldDecorationType,
   ItalicDecorationType,
   BoldItalicDecorationType,
+  HighlightDecorationType,
+  HighlightBoldDecorationType,
+  HighlightTripleDecorationType,
+  AlertDecorationType,
+  AlertBoldDecorationType,
+  AlertTripleDecorationType,
   StrikethroughDecorationType,
   CodeDecorationType,
   CodeBlockDecorationType,
@@ -54,6 +60,12 @@ type RegistryOptions = {
   getInlineCodeColor?: () => string | undefined;
   getInlineCodeBackgroundColor?: () => string | undefined;
   getEmphasisColor?: () => string | undefined;
+  getHighlightColor?: () => string | undefined;
+  getHighlightBackgroundColor?: () => string | undefined;
+  getHighlightSingleForegroundColor?: () => string | undefined;
+  getAlertColor?: () => string | undefined;
+  getAlertBackgroundColor?: () => string | undefined;
+  getAlertSingleForegroundColor?: () => string | undefined;
   getBlockquoteColor?: () => string | undefined;
   getImageColor?: () => string | undefined;
   getHorizontalRuleColor?: () => string | undefined;
@@ -67,6 +79,12 @@ export class DecorationTypeRegistry {
   private boldDecorationType!: TextEditorDecorationType;
   private italicDecorationType!: TextEditorDecorationType;
   private boldItalicDecorationType!: TextEditorDecorationType;
+  private highlightDecorationType!: TextEditorDecorationType;
+  private highlightBoldDecorationType!: TextEditorDecorationType;
+  private highlightTripleDecorationType!: TextEditorDecorationType;
+  private alertDecorationType!: TextEditorDecorationType;
+  private alertBoldDecorationType!: TextEditorDecorationType;
+  private alertTripleDecorationType!: TextEditorDecorationType;
   private strikethroughDecorationType!: TextEditorDecorationType;
   private codeDecorationType!: TextEditorDecorationType;
   private codeBlockDecorationType!: TextEditorDecorationType;
@@ -106,6 +124,12 @@ export class DecorationTypeRegistry {
     this.boldDecorationType = BoldDecorationType(this.options.getEmphasisColor?.());
     this.italicDecorationType = ItalicDecorationType(this.options.getEmphasisColor?.());
     this.boldItalicDecorationType = BoldItalicDecorationType(this.options.getEmphasisColor?.());
+    this.highlightDecorationType = HighlightDecorationType(this.options.getHighlightSingleForegroundColor?.(), this.options.getHighlightBackgroundColor?.());
+    this.highlightBoldDecorationType = HighlightBoldDecorationType(this.options.getHighlightColor?.());
+    this.highlightTripleDecorationType = HighlightTripleDecorationType(this.options.getHighlightColor?.());
+    this.alertDecorationType = AlertDecorationType(this.options.getAlertSingleForegroundColor?.(), this.options.getAlertBackgroundColor?.());
+    this.alertBoldDecorationType = AlertBoldDecorationType(this.options.getAlertColor?.());
+    this.alertTripleDecorationType = AlertTripleDecorationType(this.options.getAlertColor?.());
     this.strikethroughDecorationType = StrikethroughDecorationType();
     this.codeDecorationType = CodeDecorationType(this.options.getInlineCodeColor?.(), this.options.getInlineCodeBackgroundColor?.());
     this.codeBlockDecorationType = CodeBlockDecorationType();
@@ -145,6 +169,12 @@ export class DecorationTypeRegistry {
       ['bold', this.boldDecorationType],
       ['italic', this.italicDecorationType],
       ['boldItalic', this.boldItalicDecorationType],
+      ['highlight', this.highlightDecorationType],
+      ['highlightBold', this.highlightBoldDecorationType],
+      ['highlightTriple', this.highlightTripleDecorationType],
+      ['alert', this.alertDecorationType],
+      ['alertBold', this.alertBoldDecorationType],
+      ['alertTriple', this.alertTripleDecorationType],
       ['strikethrough', this.strikethroughDecorationType],
       ['code', this.codeDecorationType],
       ['codeBlock', this.codeBlockDecorationType],
@@ -226,6 +256,12 @@ export class DecorationTypeRegistry {
     this.recreateDecorationType(this.listItemDecorationType, () => ListItemDecorationType(this.options.getListMarkerColor?.()), (t) => { this.listItemDecorationType = t; }, 'listItem');
     this.recreateDecorationType(this.orderedListItemDecorationType, () => OrderedListItemDecorationType(this.options.getListMarkerColor?.()), (t) => { this.orderedListItemDecorationType = t; }, 'orderedListItem');
     this.recreateDecorationType(this.codeDecorationType, () => CodeDecorationType(this.options.getInlineCodeColor?.(), this.options.getInlineCodeBackgroundColor?.()), (t) => { this.codeDecorationType = t; }, 'code');
+    this.recreateDecorationType(this.highlightDecorationType, () => HighlightDecorationType(this.options.getHighlightSingleForegroundColor?.(), this.options.getHighlightBackgroundColor?.()), (t) => { this.highlightDecorationType = t; }, 'highlight');
+    this.recreateDecorationType(this.highlightBoldDecorationType, () => HighlightBoldDecorationType(this.options.getHighlightColor?.()), (t) => { this.highlightBoldDecorationType = t; }, 'highlightBold');
+    this.recreateDecorationType(this.highlightTripleDecorationType, () => HighlightTripleDecorationType(this.options.getHighlightColor?.()), (t) => { this.highlightTripleDecorationType = t; }, 'highlightTriple');
+    this.recreateDecorationType(this.alertDecorationType, () => AlertDecorationType(this.options.getAlertSingleForegroundColor?.(), this.options.getAlertBackgroundColor?.()), (t) => { this.alertDecorationType = t; }, 'alert');
+    this.recreateDecorationType(this.alertBoldDecorationType, () => AlertBoldDecorationType(this.options.getAlertColor?.()), (t) => { this.alertBoldDecorationType = t; }, 'alertBold');
+    this.recreateDecorationType(this.alertTripleDecorationType, () => AlertTripleDecorationType(this.options.getAlertColor?.()), (t) => { this.alertTripleDecorationType = t; }, 'alertTriple');
     this.recreateDecorationType(this.boldDecorationType, () => BoldDecorationType(this.options.getEmphasisColor?.()), (t) => { this.boldDecorationType = t; }, 'bold');
     this.recreateDecorationType(this.italicDecorationType, () => ItalicDecorationType(this.options.getEmphasisColor?.()), (t) => { this.italicDecorationType = t; }, 'italic');
     this.recreateDecorationType(this.boldItalicDecorationType, () => BoldItalicDecorationType(this.options.getEmphasisColor?.()), (t) => { this.boldItalicDecorationType = t; }, 'boldItalic');

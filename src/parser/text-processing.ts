@@ -1,5 +1,6 @@
 import type { Node, Text } from 'mdast';
 import { addScope, hasValidPosition, isInCodeBlock } from './common';
+import { processAlertInSlice, processHighlightInSlice } from './highlight-alert';
 import type { DecorationRange, ScopeRange } from './types';
 
 export function processTextNode(
@@ -20,6 +21,8 @@ export function processTextNode(
 
   const start = node.position!.start.offset!;
   processEmojiShortcodesInSlice(node.value, start, decorations, scopes);
+  processHighlightInSlice(node.value, start, decorations, scopes);
+  processAlertInSlice(node.value, start, decorations, scopes);
 }
 
 export function processEmojiShortcodesInSlice(

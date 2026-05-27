@@ -137,6 +137,76 @@ export function BoldItalicDecorationType(color?: string | ThemeColor) {
 }
 
 /**
+ * Decoration type for single-marker highlight (=text=).
+ * Solid yellow background, foreground from config or the theme default.
+ * Paired with transparent markers (full-range bg) in the parser.
+ */
+export function HighlightDecorationType(color?: string | ThemeColor, backgroundColor?: string | ThemeColor) {
+  return window.createTextEditorDecorationType({
+    color: color ?? new ThemeColor('editor.foreground'),
+    backgroundColor: backgroundColor ?? 'rgba(255, 235, 0, 1)',
+  });
+}
+
+/**
+ * Decoration type for double-marker highlight (==text==).
+ * Foreground-only: color, NOT bold, no background.
+ */
+export function HighlightBoldDecorationType(color?: string | ThemeColor, backgroundColor?: string | ThemeColor) {
+  return window.createTextEditorDecorationType({
+    color: color ?? '#B58900',
+    backgroundColor,
+  });
+}
+
+/**
+ * Decoration type for triple-marker highlight (===text===).
+ * Foreground-only: color + bold, no background.
+ */
+export function HighlightTripleDecorationType(color?: string | ThemeColor, backgroundColor?: string | ThemeColor) {
+  return window.createTextEditorDecorationType({
+    color: color ?? '#B58900',
+    fontWeight: 'bold',
+    backgroundColor,
+  });
+}
+
+/**
+ * Decoration type for single-marker alert (!text!).
+ * Solid red background; foreground defaults to white for contrast but can be
+ * overridden via config. Paired with transparent markers (full-range bg) in the parser.
+ */
+export function AlertDecorationType(color?: string | ThemeColor, backgroundColor?: string | ThemeColor) {
+  return window.createTextEditorDecorationType({
+    color: color ?? '#FFFFFF',
+    backgroundColor: backgroundColor ?? 'rgba(220, 50, 47, 1)',
+  });
+}
+
+/**
+ * Decoration type for double-marker alert (!!text!!).
+ * Foreground-only: color, NOT bold, no background.
+ */
+export function AlertBoldDecorationType(color?: string | ThemeColor, backgroundColor?: string | ThemeColor) {
+  return window.createTextEditorDecorationType({
+    color: color ?? '#DC322F',
+    backgroundColor,
+  });
+}
+
+/**
+ * Decoration type for triple-marker alert (!!!text!!!).
+ * Foreground-only: color + bold, no background.
+ */
+export function AlertTripleDecorationType(color?: string | ThemeColor, backgroundColor?: string | ThemeColor) {
+  return window.createTextEditorDecorationType({
+    color: color ?? '#DC322F',
+    fontWeight: 'bold',
+    backgroundColor,
+  });
+}
+
+/**
  * Creates a decoration type for strikethrough text styling.
  *
  * @returns {vscode.TextEditorDecorationType} A decoration type for strikethrough text

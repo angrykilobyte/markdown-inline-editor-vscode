@@ -1,7 +1,7 @@
 {
   "name": "markdown-inline-editor-vscode",
   "displayName": "Markdown Inline Editor",
-  "version": "1.23.0",
+  "version": "1.23.2",
   "description": "WYSIWYG inline markdown editor - hide syntax, focus on content",
   "license": "MIT",
   "author": "SeardnaSchmid",
@@ -78,6 +78,52 @@
           "visibility": "hidden"
         }
       ]
+    },
+    "grammars": [
+      {
+        "scopeName": "highlight.markdown",
+        "path": "./syntaxes/markdown-highlight.tmLanguage.json",
+        "injectTo": ["text.html.markdown"]
+      }
+    ],
+    "configurationDefaults": {
+      "editor.tokenColorCustomizations": {
+        "textMateRules": [
+          {
+            "scope": "markup.highlight.bold.content.markdown",
+            "settings": { "foreground": "#B58900" }
+          },
+          {
+            "scope": "markup.highlight.triple.content.markdown",
+            "settings": { "foreground": "#B58900", "fontStyle": "bold" }
+          },
+          {
+            "scope": "markup.alert.bold.content.markdown",
+            "settings": { "foreground": "#DC322F" }
+          },
+          {
+            "scope": "markup.alert.triple.content.markdown",
+            "settings": { "foreground": "#DC322F", "fontStyle": "bold" }
+          },
+          {
+            "scope": [
+              "punctuation.definition.highlight.begin.markdown",
+              "punctuation.definition.highlight.end.markdown",
+              "punctuation.definition.highlight.bold.begin.markdown",
+              "punctuation.definition.highlight.bold.end.markdown",
+              "punctuation.definition.highlight.triple.begin.markdown",
+              "punctuation.definition.highlight.triple.end.markdown",
+              "punctuation.definition.alert.begin.markdown",
+              "punctuation.definition.alert.end.markdown",
+              "punctuation.definition.alert.bold.begin.markdown",
+              "punctuation.definition.alert.bold.end.markdown",
+              "punctuation.definition.alert.triple.begin.markdown",
+              "punctuation.definition.alert.triple.end.markdown"
+            ],
+            "settings": { "foreground": "#888888" }
+          }
+        ]
+      }
     },
     "configuration": {
       "title": "Markdown Inline Editor",
@@ -236,6 +282,42 @@
           "description": "Hex color for emphasis (bold/italic)",
           "format": "color",
           "markdownDescription": "Hex color for emphasis (bold/italic). Leave empty to use theme default."
+        },
+        "markdownInlineEditor.colors.highlight": {
+          "type": "string",
+          "description": "Hex color for highlight foreground (==text== and ===text===)",
+          "format": "color",
+          "markdownDescription": "Hex color for highlight foreground used by the double (`==text==`) and triple (`===text===`) variants. Leave empty to use default `#B58900`."
+        },
+        "markdownInlineEditor.colors.highlightBackground": {
+          "type": "string",
+          "description": "Hex color for highlight background (=text=)",
+          "format": "color",
+          "markdownDescription": "Hex color for the solid highlight background used by the single (`=text=`) variant. Leave empty to use default `#FFEB00` (solid yellow)."
+        },
+        "markdownInlineEditor.colors.highlightSingleForeground": {
+          "type": "string",
+          "description": "Hex color for highlight text foreground inside the solid background (=text=)",
+          "format": "color",
+          "markdownDescription": "Hex color for the text foreground rendered on top of the solid background of the single (`=text=`) variant. Leave empty to use the editor's theme foreground."
+        },
+        "markdownInlineEditor.colors.alert": {
+          "type": "string",
+          "description": "Hex color for alert foreground (!!text!! and !!!text!!!)",
+          "format": "color",
+          "markdownDescription": "Hex color for alert foreground used by the double (`!!text!!`) and triple (`!!!text!!!`) variants. Leave empty to use default `#DC322F`."
+        },
+        "markdownInlineEditor.colors.alertBackground": {
+          "type": "string",
+          "description": "Hex color for alert background (!text!)",
+          "format": "color",
+          "markdownDescription": "Hex color for the solid alert background used by the single (`!text!`) variant. Leave empty to use default `#DC322F` (solid red)."
+        },
+        "markdownInlineEditor.colors.alertSingleForeground": {
+          "type": "string",
+          "description": "Hex color for alert text foreground inside the solid background (!text!)",
+          "format": "color",
+          "markdownDescription": "Hex color for the text foreground rendered on top of the solid background of the single (`!text!`) variant. Leave empty to use default `#FFFFFF` (white)."
         },
         "markdownInlineEditor.colors.blockquote": {
           "type": "string",
