@@ -116,6 +116,8 @@ export class Decorator {
       getCheckboxColor: () => config.colors.checkbox(),
       getHighlightColor: () => config.colors.highlight(),
       getHighlightBackgroundColor: () => config.colors.highlightBackground(),
+      getAlertColor: () => config.colors.alert(),
+      getAlertBackgroundColor: () => config.colors.alertBackground(),
     });
   }
 

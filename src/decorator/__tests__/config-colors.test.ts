@@ -179,6 +179,7 @@ describe('config.colors', () => {
       'heading1', 'heading2', 'heading3', 'heading4', 'heading5', 'heading6',
       'link', 'listMarker', 'inlineCode', 'inlineCodeBackground', 'emphasis', 'blockquote',
       'image', 'horizontalRule', 'checkbox', 'highlight', 'highlightBackground',
+      'alert', 'alertBackground',
     ] as const;
 
     it('each getter reads correct config key', () => {

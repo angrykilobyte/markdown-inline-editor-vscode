@@ -9,6 +9,32 @@ export function scanHighlightMarkers(
   decorations: DecorationRange[],
   scopes: ScopeRange[],
 ): void {
+  scanDoubleDelimiterMarkers(text, decorations, scopes, '=', 'highlight');
+}
+
+/**
+ * Scans normalized markdown text for !!alert text!! markers.
+ */
+export function scanAlertMarkers(
+  text: string,
+  decorations: DecorationRange[],
+  scopes: ScopeRange[],
+): void {
+  scanDoubleDelimiterMarkers(text, decorations, scopes, '!', 'alert');
+}
+
+/**
+ * Shared scanner for inline spans wrapped in a doubled delimiter character
+ * (`==text==`, `!!text!!`). Emits hide decorations for the delimiters, a
+ * content decoration of `type`, and a scope of kind `type` for the whole span.
+ */
+function scanDoubleDelimiterMarkers(
+  text: string,
+  decorations: DecorationRange[],
+  scopes: ScopeRange[],
+  delimiter: string,
+  type: 'highlight' | 'alert',
+): void {
   if (!text || text.length < 5) {
     return;
   }
@@ -21,8 +47,8 @@ export function scanHighlightMarkers(
   let i = 0;
 
   while (i < n - 3) {
-    if (text[i] === '=' && text[i + 1] === '=') {
-      const runLength = getEqualRunLength(text, i);
+    if (text[i] === delimiter && text[i + 1] === delimiter) {
+      const runLength = getDelimiterRunLength(text, i, delimiter);
 
       // Only even delimiter runs (2, 4) can open
       if (runLength % 2 !== 0) {
@@ -35,10 +61,10 @@ export function scanHighlightMarkers(
         continue;
       }
 
-      // Left-flanking: cannot be followed by '=', whitespace, or closing punctuation
+      // Left-flanking: cannot be followed by the delimiter, whitespace, or closing punctuation
       const charAfterOpener = text[i + 2];
       if (
-        charAfterOpener === '=' ||
+        charAfterOpener === delimiter ||
         /\s/.test(charAfterOpener) ||
         /[.,;:)\]}]/.test(charAfterOpener)
       ) {
@@ -55,8 +81,8 @@ export function scanHighlightMarkers(
           break;
         }
 
-        if (text[j] === '=' && text[j + 1] === '=') {
-          const closerRun = getEqualRunLength(text, j);
+        if (text[j] === delimiter && text[j + 1] === delimiter) {
+          const closerRun = getDelimiterRunLength(text, j, delimiter);
           if (closerRun % 2 === 0 && !isEscaped(text, j) && !inExcludedRange(j, j + 2)) {
             // Right-flanking: cannot be preceded by whitespace
             const charBeforeCloser = text[j - 1];
@@ -79,12 +105,12 @@ export function scanHighlightMarkers(
 
         if (contentStart < contentEnd) {
           decorations.push({ startPos: start, endPos: contentStart, type: 'hide' });
-          decorations.push({ startPos: contentStart, endPos: contentEnd, type: 'highlight' });
+          decorations.push({ startPos: contentStart, endPos: contentEnd, type });
           decorations.push({ startPos: contentEnd, endPos: end, type: 'hide' });
-          addScope(scopes, start, end, 'highlight');
+          addScope(scopes, start, end, type);
         }
 
-        // For runs of 4 (==A====B==), advance by 2 so remaining 2 can open next highlight
+        // For runs of 4 (==A====B==), advance by 2 so remaining 2 can open the next span
         i = closerPos + 2;
         continue;
       }
@@ -161,9 +187,9 @@ function isBlockBoundary(text: string, pos: number, inBlockquote: boolean): bool
   return text[p] === '|';
 }
 
-function getEqualRunLength(text: string, pos: number): number {
+function getDelimiterRunLength(text: string, pos: number, delimiter: string): number {
   let len = 0;
-  while (pos + len < text.length && text[pos + len] === '=') {
+  while (pos + len < text.length && text[pos + len] === delimiter) {
     len++;
   }
   return len;

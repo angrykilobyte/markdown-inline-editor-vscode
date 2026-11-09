@@ -28,7 +28,7 @@ import {
 import {
   processFrontmatter as processFrontmatterHelper,
 } from "./frontmatter";
-import { scanHighlightMarkers } from "./highlight";
+import { scanAlertMarkers, scanHighlightMarkers } from "./highlight";
 import {
   filterDecorationsInCodeBlocks as filterDecorationsInCodeBlocksHelper,
   scanMentionAndIssueRefs as scanMentionAndIssueRefsHelper,
@@ -190,6 +190,11 @@ export class MarkdownParser {
       // Highlights: ==highlighted text==
       if (config.highlight.enabled()) {
         scanHighlightMarkers(normalizedText, decorations, scopes);
+      }
+
+      // Alerts: !!alert text!!
+      if (config.alert.enabled()) {
+        scanAlertMarkers(normalizedText, decorations, scopes);
       }
 
       // GitHub-style mentions and issue references (@username, @org/team, #123, @user/repo#456)

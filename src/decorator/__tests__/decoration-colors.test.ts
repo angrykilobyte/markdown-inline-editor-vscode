@@ -23,6 +23,7 @@ import {
   CheckboxUncheckedDecorationType,
   CheckboxCheckedDecorationType,
   HighlightDecorationType,
+  AlertDecorationType,
 } from '../../decorations';
 
 describe('decoration creation with color (hex vs theme)', () => {
@@ -232,6 +233,41 @@ describe('decoration creation with color (hex vs theme)', () => {
 
     it('creates highlight decoration with ThemeColor background', () => {
       HighlightDecorationType(undefined, new ThemeColor('editor.wordHighlightBackground'));
+      const opts = getLastTextEditorDecorationTypeOptions() as Record<string, unknown>;
+      expect(opts.backgroundColor).toBeInstanceOf(ThemeColor);
+      expect(opts.borderRadius).toBe('3px');
+    });
+  });
+
+  describe('AlertDecorationType color parameters', () => {
+    beforeEach(() => {
+      resetTextEditorDecorationTypeOptionsCapture();
+    });
+
+    it('defaults to white text on a red background', () => {
+      const dt = AlertDecorationType();
+      expect(dt).toBeDefined();
+      const opts = getLastTextEditorDecorationTypeOptions() as Record<string, unknown>;
+      expect(opts.color).toBe('#FFFFFF');
+      expect(opts.textDecoration).toContain('background-color: #F58787;');
+      expect(opts.textDecoration).toContain('border-radius: 3px;');
+    });
+
+    it('creates alert decoration with custom text color', () => {
+      AlertDecorationType('#000000');
+      const opts = getLastTextEditorDecorationTypeOptions() as Record<string, unknown>;
+      expect(opts.color).toBe('#000000');
+    });
+
+    it('creates alert decoration with custom backgroundColor injected into textDecoration', () => {
+      AlertDecorationType(undefined, '#ff8800');
+      const opts = getLastTextEditorDecorationTypeOptions() as Record<string, unknown>;
+      expect(opts.textDecoration).toContain('background-color: #ff8800;');
+      expect(opts.color).toBe('#FFFFFF');
+    });
+
+    it('creates alert decoration with ThemeColor background', () => {
+      AlertDecorationType(undefined, new ThemeColor('errorForeground'));
       const opts = getLastTextEditorDecorationTypeOptions() as Record<string, unknown>;
       expect(opts.backgroundColor).toBeInstanceOf(ThemeColor);
       expect(opts.borderRadius).toBe('3px');

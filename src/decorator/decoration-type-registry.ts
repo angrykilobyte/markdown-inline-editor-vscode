@@ -9,6 +9,7 @@ import {
   BoldItalicDecorationType,
   StrikethroughDecorationType,
   HighlightDecorationType,
+  AlertDecorationType,
   CodeDecorationType,
   CodeBlockDecorationType,
   CodeBlockLanguageDecorationType,
@@ -63,6 +64,8 @@ type RegistryOptions = {
   getCheckboxColor?: () => string | undefined;
   getHighlightColor?: () => string | undefined;
   getHighlightBackgroundColor?: () => string | undefined;
+  getAlertColor?: () => string | undefined;
+  getAlertBackgroundColor?: () => string | undefined;
 };
 
 export class DecorationTypeRegistry {
@@ -75,6 +78,7 @@ export class DecorationTypeRegistry {
   private boldItalicDecorationType!: TextEditorDecorationType;
   private strikethroughDecorationType!: TextEditorDecorationType;
   private highlightDecorationType!: TextEditorDecorationType;
+  private alertDecorationType!: TextEditorDecorationType;
   private codeDecorationType!: TextEditorDecorationType;
   private codeBlockDecorationType!: TextEditorDecorationType;
   private codeBlockLanguageDecorationType!: TextEditorDecorationType;
@@ -120,6 +124,10 @@ export class DecorationTypeRegistry {
       this.options.getHighlightColor?.(),
       this.options.getHighlightBackgroundColor?.(),
     );
+    this.alertDecorationType = AlertDecorationType(
+      this.options.getAlertColor?.(),
+      this.options.getAlertBackgroundColor?.(),
+    );
     this.codeDecorationType = CodeDecorationType(this.options.getInlineCodeColor?.(), this.options.getInlineCodeBackgroundColor?.());
     this.codeBlockDecorationType = CodeBlockDecorationType();
     this.codeBlockLanguageDecorationType = CodeBlockLanguageDecorationType(this.options.getCodeBlockLanguageOpacity());
@@ -161,6 +169,7 @@ export class DecorationTypeRegistry {
       ['boldItalic', this.boldItalicDecorationType],
       ['strikethrough', this.strikethroughDecorationType],
       ['highlight', this.highlightDecorationType],
+      ['alert', this.alertDecorationType],
       ['code', this.codeDecorationType],
       ['codeBlock', this.codeBlockDecorationType],
       ['codeBlockLanguage', this.codeBlockLanguageDecorationType],
@@ -257,6 +266,12 @@ export class DecorationTypeRegistry {
       () => HighlightDecorationType(this.options.getHighlightColor?.(), this.options.getHighlightBackgroundColor?.()),
       (t) => { this.highlightDecorationType = t; },
       'highlight',
+    );
+    this.recreateDecorationType(
+      this.alertDecorationType,
+      () => AlertDecorationType(this.options.getAlertColor?.(), this.options.getAlertBackgroundColor?.()),
+      (t) => { this.alertDecorationType = t; },
+      'alert',
     );
   }
 

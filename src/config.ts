@@ -78,6 +78,13 @@ export const config = {
         .get<boolean>('highlight.enabled', true);
     },
   },
+  alert: {
+    enabled(): boolean {
+      return vscode.workspace
+        .getConfiguration(SECTION)
+        .get<boolean>('alert.enabled', true);
+    },
+  },
   orderedLists: {
     /** When true, ordered list markers are hidden and replaced with computed numbers (lazy `1.` numbering, etc.). When false, the source text is shown as written. */
     autoNumber(): boolean {
@@ -214,6 +221,12 @@ export const config = {
     },
     highlightBackground(): string | undefined {
       return getColorConfig('highlightBackground');
+    },
+    alert(): string | undefined {
+      return getColorConfig('alert');
+    },
+    alertBackground(): string | undefined {
+      return getColorConfig('alertBackground');
     },
   },
 } as const;

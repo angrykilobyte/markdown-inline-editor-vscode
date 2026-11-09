@@ -203,6 +203,41 @@ export function HighlightDecorationType(
 }
 
 /**
+ * Default alert (`!!text!!`) colors: white text on a solid red background.
+ * The background is opaque, so the same pair reads well in light and dark themes.
+ */
+export const DEFAULT_ALERT_COLOR = '#FFFFFF';
+export const DEFAULT_ALERT_BACKGROUND_COLOR = '#F58787';
+
+/**
+ * Creates a decoration type for alert text styling (!!text!!).
+ *
+ * Mirrors {@link HighlightDecorationType}, but defaults to white text on a red
+ * background instead of the theme foreground on a translucent yellow.
+ *
+ * @param {string | ThemeColor | undefined} color - Optional hex or theme color for text (default white)
+ * @param {string | ThemeColor | undefined} backgroundColor - Optional hex or theme color for background (default red)
+ * @returns {vscode.TextEditorDecorationType} A decoration type for alert text
+ */
+export function AlertDecorationType(
+  color?: string | ThemeColor,
+  backgroundColor?: string | ThemeColor,
+) {
+  const bgColor = backgroundColor ?? DEFAULT_ALERT_BACKGROUND_COLOR;
+  const options: Record<string, unknown> = {
+    color: color ?? DEFAULT_ALERT_COLOR,
+  };
+  if (typeof bgColor === 'string') {
+    // Apply background directly to text span to retain styling when delimiters are hidden
+    options.textDecoration = `none; background-color: ${bgColor}; border-radius: 3px;`;
+  } else {
+    options.backgroundColor = bgColor;
+    options.borderRadius = '3px';
+  }
+  return window.createTextEditorDecorationType(options);
+}
+
+/**
  * Creates a decoration type for inline code styling.
  *
  * Uses the editor background color with theme-aware brightness adjustment:

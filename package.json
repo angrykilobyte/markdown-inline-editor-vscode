@@ -142,6 +142,12 @@
           "description": "Render highlighted text (==text==)",
           "markdownDescription": "Render highlighted text (==text==) inline in Markdown documents. When disabled, == delimiters are shown as plain text."
         },
+        "markdownInlineEditor.alert.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Render alert text (!!text!!)",
+          "markdownDescription": "Render alert text (!!text!!) inline in Markdown documents, as white text on a red background by default. When disabled, !! delimiters are shown as plain text."
+        },
         "markdownInlineEditor.orderedLists.autoNumber": {
           "type": "boolean",
           "default": true,
@@ -320,6 +326,18 @@
           "description": "Hex color for highlight background",
           "format": "color",
           "markdownDescription": "Hex color for highlight background overlay. Leave empty to use theme default (semi-transparent yellow)."
+        },
+        "markdownInlineEditor.colors.alert": {
+          "type": "string",
+          "description": "Hex color for alert text (!!text!!)",
+          "format": "color",
+          "markdownDescription": "Hex color for alert text (`!!text!!`). Leave empty to use the default white (`#FFFFFF`)."
+        },
+        "markdownInlineEditor.colors.alertBackground": {
+          "type": "string",
+          "description": "Hex color for alert background (!!text!!)",
+          "format": "color",
+          "markdownDescription": "Hex color for alert background (`!!text!!`). Leave empty to use the default red (`#F58787`)."
         }
       }
     }

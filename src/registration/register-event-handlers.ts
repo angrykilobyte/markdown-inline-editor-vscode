@@ -62,7 +62,10 @@ export function registerEventHandlers(
         decorator.recreateColorDependentTypes();
       }
 
-      if (event.affectsConfiguration('markdownInlineEditor.highlight.enabled')) {
+      if (
+        event.affectsConfiguration('markdownInlineEditor.highlight.enabled') ||
+        event.affectsConfiguration('markdownInlineEditor.alert.enabled')
+      ) {
         decorator.clearCache();
         decorator.updateDecorationsForSelection();
       }

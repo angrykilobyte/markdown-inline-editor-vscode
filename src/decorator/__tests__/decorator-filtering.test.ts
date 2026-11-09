@@ -599,6 +599,7 @@ describe('Marker decoration categorization', () => {
     });
     expect(isMarkerDecorationType('bold')).toBe(false);
     expect(isMarkerDecorationType('highlight')).toBe(false);
+    expect(isMarkerDecorationType('alert')).toBe(false);
     expect(isMarkerDecorationType('link')).toBe(false);
   });
 });
@@ -638,6 +639,44 @@ describe('Highlight filtering (3-state)', () => {
     const filtered = filterDecorationsForSelection(text, decorations, scopes, selection);
 
     expect(filtered.get('highlight')?.length).toBe(1);
+    expect(filtered.get('hide')?.length ?? 0).toBe(0);
+    expect(filtered.get('ghostFaint')?.length ?? 0).toBe(0);
+  });
+});
+
+describe('Alert filtering (3-state)', () => {
+  const text = 'Line 0\nprefix !!alert!! suffix\nLine 2';
+  // 'Line 0\n' is 7 chars and 'prefix ' is 7 chars, so '!!alert!!' spans 14..23
+  const decorations: DecorationRange[] = [
+    { startPos: 14, endPos: 16, type: 'hide' },
+    { startPos: 16, endPos: 21, type: 'alert' },
+    { startPos: 21, endPos: 23, type: 'hide' },
+  ];
+  const scopes: Array<[number, number]> = [[14, 23]];
+
+  it('renders alert and hides markers when cursor is on another line (Rendered state)', () => {
+    const selection = new Selection(new Position(0, 0), new Position(0, 0));
+    const filtered = filterDecorationsForSelection(text, decorations, scopes, selection);
+
+    expect(filtered.get('alert')?.length).toBe(1);
+    expect(filtered.get('hide')?.length).toBe(2);
+    expect(filtered.has('ghostFaint')).toBe(false);
+  });
+
+  it('shows faint markers when cursor is on same line but outside alert (Ghost state)', () => {
+    const selection = new Selection(new Position(1, 0), new Position(1, 0));
+    const filtered = filterDecorationsForSelection(text, decorations, scopes, selection);
+
+    expect(filtered.get('alert')?.length).toBe(1);
+    expect(filtered.get('hide')?.length ?? 0).toBe(0);
+    expect(filtered.get('ghostFaint')?.length).toBe(2);
+  });
+
+  it('shows raw markers when cursor is inside alert (Raw state)', () => {
+    const selection = new Selection(new Position(1, 11), new Position(1, 11));
+    const filtered = filterDecorationsForSelection(text, decorations, scopes, selection);
+
+    expect(filtered.get('alert')?.length).toBe(1);
     expect(filtered.get('hide')?.length ?? 0).toBe(0);
     expect(filtered.get('ghostFaint')?.length ?? 0).toBe(0);
   });
